@@ -4,7 +4,7 @@ use super::{Error, HeaderGen, RecordGen, Result};
 use log::warn;
 
 use crate::cursor::Cursor;
-use crate::field_iter::FieldIterator;
+use crate::header_iter::HeaderIterator;
 
 /// Connection record which contains message type for ROS topic.
 ///
@@ -55,7 +55,7 @@ impl<'a> RecordGen<'a> for Connection<'a> {
         let mut caller_id = None;
         let mut latching = false;
 
-        for field in FieldIterator::new(buf) {
+        for field in HeaderIterator::new(buf) {
             let (name, val) = field?;
             match name {
                 "topic" => set_field_str(&mut topic, val)?,

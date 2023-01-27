@@ -61,7 +61,7 @@ const ROSBAG_HEADER_OP: u8 = 0x03;
 
 mod cursor;
 mod error;
-mod field_iter;
+mod header_iter;
 mod record;
 
 mod chunk_iter;
@@ -70,7 +70,7 @@ mod msg_iter;
 pub mod record_types;
 
 use cursor::Cursor;
-use field_iter::FieldIterator;
+use header_iter::HeaderIterator;
 use record_types::utils::{check_op, set_field_u32, set_field_u64};
 
 pub use chunk_iter::{ChunkRecord, ChunkRecordsIterator};
@@ -115,7 +115,7 @@ fn parse_bag_header(data: &[u8]) -> Result<(u64, BagHeader)> {
     let mut chunk_count: Option<u32> = None;
     let mut op: bool = false;
 
-    for item in FieldIterator::new(header) {
+    for item in HeaderIterator::new(header) {
         let (name, val) = item?;
         match name {
             "op" => {

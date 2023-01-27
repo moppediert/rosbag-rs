@@ -4,17 +4,17 @@ use std::iter::Iterator;
 use std::str;
 
 /// Iterator which goes over record header fields
-pub(crate) struct FieldIterator<'a> {
+pub(crate) struct HeaderIterator<'a> {
     buf: &'a [u8],
 }
 
-impl<'a> FieldIterator<'a> {
+impl<'a> HeaderIterator<'a> {
     pub(crate) fn new(buf: &'a [u8]) -> Self {
         Self { buf }
     }
 }
 
-impl<'a> Iterator for FieldIterator<'a> {
+impl<'a> Iterator for HeaderIterator<'a> {
     type Item = Result<(&'a str, &'a [u8])>;
 
     fn next(&mut self) -> Option<Self::Item> {
