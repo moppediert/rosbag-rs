@@ -43,13 +43,13 @@ impl<'a> Cursor<'a> {
         Ok(&self.data[s..self.pos as usize])
     }
 
-    /// Retrieve the block <field_name>=<field_value> after getting the field length
+    /// Retrieve the header after getting the header length
     pub fn next_chunk(&mut self) -> Result<&'a [u8], OutOfBounds> {
         let n = self.next_u32()? as u64;
         self.next_bytes(n)
     }
 
-    /// Retrieve the field length by reading the next 4 bytes of data
+    /// Retrieve the header length by reading the next 4 bytes of data
     pub fn next_u32(&mut self) -> Result<u32, OutOfBounds> {
         Ok(LE::read_u32(self.next_bytes(4)?))
     }
