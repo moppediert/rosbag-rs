@@ -4,6 +4,8 @@ use std::iter::Iterator;
 use std::str;
 
 /// Iterator which goes over record header fields
+/// A field definition: <field_len><field_name>=<field_value>
+/// <field_len> is 4 bytes long, contains length in bytes of <field_name>=<field_value>
 pub(crate) struct HeaderIterator<'a> {
     buf: &'a [u8],
 }
