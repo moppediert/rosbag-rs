@@ -108,6 +108,8 @@ fn parse_bag_header(data: &[u8]) -> Result<(u64, BagHeader)> {
         return Err(Error::InvalidHeader);
     }
 
+    // This is the <header> of the Bag Header record
+    // <header> has the format <field1_len><field1_name>=<field1_value><field2_len><field2_name>=<field2_value>...<fieldN_len><fieldN_name>=<fieldN_value>
     let header = cursor.next_chunk()?;
 
     let mut index_pos: Option<u64> = None;
@@ -138,7 +140,8 @@ fn parse_bag_header(data: &[u8]) -> Result<(u64, BagHeader)> {
         _ => return Err(Error::InvalidHeader),
     };
 
-    // jump over header data
+    // Jump over header data, which contains padded spaces (0x20) so that the whole Bag Header record is 4096 bytes long
+    // This only counts the length of <header> and <data>, excluding <header_len> and <data_len>, each of which is 4 bytes long
     let _ = cursor.next_chunk()?;
 
     Ok((cursor.pos(), bag_header))
