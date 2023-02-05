@@ -1,7 +1,7 @@
 use crate::record_types::{ChunkInfo, Connection, IndexData};
 use crate::{record::Record, Cursor, Error, Result};
 
-/// Record types which can be stored in the chunk section.
+/// Record types which can be stored in the index section.
 #[derive(Debug, Clone)]
 pub enum IndexRecord<'a> {
     /// [`IndexData`] record.
@@ -12,7 +12,7 @@ pub enum IndexRecord<'a> {
     ChunkInfo(ChunkInfo<'a>),
 }
 
-/// Iterator over records stored in the chunk section of a rosbag file.
+/// Iterator over records stored in the index section of a rosbag file.
 pub struct IndexRecordsIterator<'a> {
     pub(crate) cursor: Cursor<'a>,
     pub(crate) offset: u64,
