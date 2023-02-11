@@ -4,8 +4,6 @@ use crate::{record::Record, Cursor, Error, Result};
 /// Record types which can be stored in the index section.
 #[derive(Debug, Clone)]
 pub enum IndexRecord<'a> {
-    /// [`IndexData`] record.
-    IndexData(IndexData<'a>),
     /// [`Connection`] record.
     Connection(Connection<'a>),
     /// [`ChunkInfo`] record.
@@ -41,7 +39,6 @@ impl<'a> Iterator for IndexRecordsIterator<'a> {
             return None;
         }
         let res = match Record::next_record(&mut self.cursor) {
-            Ok(Record::IndexData(v)) => Ok(IndexRecord::IndexData(v)),
             Ok(Record::Connection(v)) => Ok(IndexRecord::Connection(v)),
             Ok(Record::ChunkInfo(v)) => Ok(IndexRecord::ChunkInfo(v)),
             Ok(v) => Err(Error::UnexpectedIndexSectionRecord(v.get_type())),
