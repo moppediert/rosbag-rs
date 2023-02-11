@@ -6,17 +6,17 @@ use std::str;
 /// Iterator which goes over record header fields
 /// A field definition: <field_len><field_name>=<field_value>
 /// <field_len> is 4 bytes long, contains length in bytes of <field_name>=<field_value>
-pub(crate) struct HeaderIterator<'a> {
+pub(crate) struct HeaderFieldIterator<'a> {
     buf: &'a [u8],
 }
 
-impl<'a> HeaderIterator<'a> {
+impl<'a> HeaderFieldIterator<'a> {
     pub(crate) fn new(buf: &'a [u8]) -> Self {
         Self { buf }
     }
 }
 
-impl<'a> Iterator for HeaderIterator<'a> {
+impl<'a> Iterator for HeaderFieldIterator<'a> {
     type Item = Result<(&'a str, &'a [u8])>;
 
     fn next(&mut self) -> Option<Self::Item> {
