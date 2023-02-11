@@ -1,4 +1,4 @@
-use crate::record_types::{ChunkInfo, Connection, IndexData};
+use crate::record_types::{ChunkInfo, Connection};
 use crate::{record::Record, Cursor, Error, Result};
 
 /// Record types which can be stored in the index section.

@@ -184,6 +184,8 @@ impl RosBag {
         ChunkRecordsIterator {
             cursor,
             offset: self.start_pos as u64,
+            num_chunks: self.chunk_count,
+            current_chunk: 0,
         }
     }
 

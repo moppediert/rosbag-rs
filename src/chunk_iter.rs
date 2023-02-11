@@ -14,6 +14,8 @@ pub enum ChunkRecord<'a> {
 pub struct ChunkRecordsIterator<'a> {
     pub(crate) cursor: Cursor<'a>,
     pub(crate) offset: u64,
+    pub(crate) num_chunks: u32,
+    pub(crate) current_chunk: u32,
 }
 
 impl<'a> ChunkRecordsIterator<'a> {
@@ -36,7 +38,7 @@ impl<'a> Iterator for ChunkRecordsIterator<'a> {
     type Item = Result<ChunkRecord<'a>>;
 
     fn next(&mut self) -> Option<Self::Item> {
-        if self.cursor.left() == 0 {
+        if self.cursor.left() == 0 || self.current_chunk >= self.num_chunks {
             return None;
         }
         let res = match Record::next_record(&mut self.cursor) {
@@ -45,6 +47,7 @@ impl<'a> Iterator for ChunkRecordsIterator<'a> {
             Ok(v) => Err(Error::UnexpectedChunkSectionRecord(v.get_type())),
             Err(e) => Err(e),
         };
+        self.current_chunk += 1;
         Some(res)
     }
 }
