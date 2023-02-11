@@ -11,6 +11,8 @@ pub struct IndexData<'a> {
     pub ver: u32,
     /// Connection ID
     pub conn_id: u32,
+    /// Number of messages of this connection
+    pub count: u32,
     /// Occurrences of timestamps, chunk record offsets and message offsets
     data: &'a [u8],
 }
@@ -47,7 +49,7 @@ impl<'a> RecordGen<'a> for IndexData<'a> {
             return Err(Error::InvalidRecord);
         }
         let data = c.next_bytes(n as u64)?;
-        Ok(Self { ver, conn_id, data })
+        Ok(Self { ver, conn_id, count, data })
     }
 }
 

@@ -42,12 +42,14 @@ impl<'a> Iterator for ChunkRecordsIterator<'a> {
             return None;
         }
         let res = match Record::next_record(&mut self.cursor) {
-            Ok(Record::Chunk(v)) => Ok(ChunkRecord::Chunk(v)),
+            Ok(Record::Chunk(v)) => {
+                self.current_chunk += 1;
+                Ok(ChunkRecord::Chunk(v))
+            }
             Ok(Record::IndexData(v)) => Ok(ChunkRecord::IndexData(v)),
             Ok(v) => Err(Error::UnexpectedChunkSectionRecord(v.get_type())),
             Err(e) => Err(e),
         };
-        self.current_chunk += 1;
         Some(res)
     }
 }
