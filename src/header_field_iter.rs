@@ -3,7 +3,7 @@ use crate::record_types::utils::read_record;
 use std::iter::Iterator;
 use std::str;
 
-/// Iterator which goes over record header fields
+/// Iterator which goes over record (2.2) Header fields
 /// A field definition: <field_len><field_name>=<field_value>
 /// <field_len> is 4 bytes long, contains length in bytes of <field_name>=<field_value>
 pub(crate) struct HeaderFieldIterator<'a> {

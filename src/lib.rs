@@ -108,7 +108,7 @@ fn parse_bag_header(data: &[u8]) -> Result<(u64, BagHeader)> {
         return Err(Error::InvalidHeader);
     }
 
-    // This is the <header> of the Bag Header record
+    // This is the <header> of the (3.1) Bag Header record
     // <header> has the format <field1_len><field1_name>=<field1_value><field2_len><field2_name>=<field2_value>...<fieldN_len><fieldN_name>=<fieldN_value>
     let header = cursor.next_chunk()?;
 
