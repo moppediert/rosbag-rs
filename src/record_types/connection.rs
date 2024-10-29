@@ -74,6 +74,10 @@ impl<'a> RecordGen<'a> for Connection<'a> {
                     latching = match val {
                         b"1" => true,
                         b"0" => false,
+                        b"" => {
+                            log::warn!("Got empty latching field, interpreting it as 0");
+                            false
+                        }
                         _ => return Err(Error::InvalidRecord),
                     }
                 }
@@ -81,7 +85,7 @@ impl<'a> RecordGen<'a> for Connection<'a> {
             }
         }
 
-        let topic = topic.ok_or(Error::InvalidHeader)?;
+        let topic = topic.unwrap_or(storage_topic);
         let tp = tp.ok_or(Error::InvalidHeader)?;
         let md5sum = md5sum.ok_or(Error::InvalidHeader)?;
         let message_definition = message_definition.ok_or(Error::InvalidHeader)?;
