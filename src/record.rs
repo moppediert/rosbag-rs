@@ -33,11 +33,11 @@ impl<'a> Record<'a> {
         }
 
         Ok(match op {
-            Some(IndexData::OP) => Record::IndexData(IndexData::read(header, c)?),
             Some(Chunk::OP) => Record::Chunk(Chunk::read(header, c)?),
-            Some(ChunkInfo::OP) => Record::ChunkInfo(ChunkInfo::read(header, c)?),
             Some(Connection::OP) => Record::Connection(Connection::read(header, c)?),
             Some(MessageData::OP) => Record::MessageData(MessageData::read(header, c)?),
+            Some(IndexData::OP) => Record::IndexData(IndexData::read(header, c)?),
+            Some(ChunkInfo::OP) => Record::ChunkInfo(ChunkInfo::read(header, c)?),
             _ => return Err(Error::InvalidRecord),
         })
     }
