@@ -2,7 +2,7 @@ use super::{Error, Result};
 
 use crate::cursor::Cursor;
 
-use crate::header_field_iter::HeaderFieldIterator;
+use crate::header_iter::HeaderIterator;
 use crate::record_types::{Chunk, ChunkInfo, Connection, IndexData, MessageData, RecordGen};
 
 /// Enum with all possible record variants
@@ -20,7 +20,7 @@ impl<'a> Record<'a> {
         let header = c.next_chunk()?;
 
         let mut op = None;
-        for item in HeaderFieldIterator::new(header) {
+        for item in HeaderIterator::new(header) {
             let (name, val) = item?;
             if name == "op" {
                 if val.len() == 1 {
